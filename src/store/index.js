@@ -28,17 +28,22 @@ const store = new Vuex.Store({
             }
         },
         async obterDadosEmpresasSelecionadas({ dispatch, commit }) {
+            let sleep = function (ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
             let empresasSelecionadas = []
             let google = dispatch("obterInformacoesEmpresa", "GOOG");
             if (google) {
                 google.name = "Google";
                 empresasSelecionadas.push(google);
             }
+            await sleep(20000);
             let microsoft = dispatch("obterInformacoesEmpresa", "MSFT");
             if (microsoft) {
                 microsoft.name = "Microsoft"
                 empresasSelecionadas.push(microsoft);
             }
+            await sleep(20000);
             let amazon = dispatch("obterInformacoesEmpresa", "AMZN");
             if (amazon) {
                 amazon.name = "Amazon.com Inc."
