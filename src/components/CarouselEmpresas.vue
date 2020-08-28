@@ -29,11 +29,15 @@ export default {
     ],
   }),
   computed: {
-      ...mapGetters(["empresasSelecionadas"])
+    ...mapGetters(["empresasSelecionadas"]),
   },
   methods: {
-    ...mapActions(["obterInformacoesEmpresa", "obterDadosEmpresasSelecionadas"]),
+    ...mapActions([
+      "obterInformacoesEmpresa",
+      "obterDadosEmpresasSelecionadas",
+    ]),
     formatValue(value) {
+      if (!value) return value;
       return value.toLocaleString("en-US", {
         maximumFractionDigits: 2,
         minimumFractionDigits: 2,
