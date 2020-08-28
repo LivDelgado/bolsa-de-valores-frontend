@@ -28,23 +28,26 @@ const store = new Vuex.Store({
             }
         },
         async obterDadosEmpresasSelecionadas({ dispatch, commit }) {
+            // função criada para lidar com a limitação de requisições por minuto da API da alpha vantage
             let sleep = function (ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
             let empresasSelecionadas = []
-            let google = dispatch("obterInformacoesEmpresa", "GOOG");
+            let google = await dispatch("obterInformacoesEmpresa", "GOOG");
             if (google) {
                 google.name = "Google";
                 empresasSelecionadas.push(google);
             }
+            // intervalo necessário para que todos os dados possam ser retornados
             await sleep(20000);
-            let microsoft = dispatch("obterInformacoesEmpresa", "MSFT");
+            let microsoft = await dispatch("obterInformacoesEmpresa", "MSFT");
             if (microsoft) {
                 microsoft.name = "Microsoft"
                 empresasSelecionadas.push(microsoft);
             }
+            // intervalo necessário para que todos os dados possam ser retornados
             await sleep(20000);
-            let amazon = dispatch("obterInformacoesEmpresa", "AMZN");
+            let amazon = await dispatch("obterInformacoesEmpresa", "AMZN");
             if (amazon) {
                 amazon.name = "Amazon.com Inc."
                 empresasSelecionadas.push(amazon);
