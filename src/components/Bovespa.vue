@@ -19,7 +19,7 @@
                   </v-flex>
                   <v-flex xs2 class="text-center">
                     <p>Volume</p>
-                    <h3>{{ this.bovespa ? this.formatValue(this.bovespa.info.volume_value) : ""}}</h3>
+                    <h3>{{ this.bovespa ? this.bovespa.info.volume_value : ""}}</h3>
                   </v-flex>
                   <v-flex xs2 class="text-center">
                     <p>Máximo (Dia)</p>
