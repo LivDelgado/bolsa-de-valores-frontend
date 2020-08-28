@@ -23,9 +23,8 @@ export default {
   data: () => ({
     colors: [
       "purple darken-2",
-      "indigo darken-3",
       "cyan darken-1",
-      "blue-grey darken-1",
+      "indigo darken-3",
     ],
   }),
   computed: {

@@ -34,11 +34,6 @@ const store = new Vuex.Store({
                 google.name = "Google";
                 empresasSelecionadas.push(google);
             }
-            let ibm = dispatch("obterInformacoesEmpresa", "IBM");
-            if (ibm) {
-                ibm.name = "ibm"
-                empresasSelecionadas.push(ibm);
-            }
             let microsoft = dispatch("obterInformacoesEmpresa", "MSFT");
             if (microsoft) {
                 microsoft.name = "Microsoft"
