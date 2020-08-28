@@ -121,7 +121,7 @@ export default {
       return `${dataSplitted[2]}/${dataSplitted[1]}/${dataSplitted[0]}`;
     },
   },
-  beforeMount: async function () {
+  created: async function () {
     await this.obterDadosBovespa();
   },
 };

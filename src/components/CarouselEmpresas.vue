@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="this.empresasSelecionadas.length > 0">
     <v-layout max-width="750" ma-5 mx-1 px-7 py-4 pb-0>
       <v-carousel cycle height="400" hide-delimiter-background show-arrows-on-hover>
         <v-carousel-item v-for="(empresa, i) in empresasSelecionadas" :key="i">
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data: () => ({
@@ -27,31 +27,21 @@ export default {
       "cyan darken-1",
       "blue-grey darken-1",
     ],
-    empresasSelecionadas: [],
   }),
-  computed: {},
+  computed: {
+      ...mapGetters(["empresasSelecionadas"])
+  },
   methods: {
-    ...mapActions(["obterInformacoesEmpresa"]),
+    ...mapActions(["obterInformacoesEmpresa", "obterDadosEmpresasSelecionadas"]),
     formatValue(value) {
       return value.toLocaleString("en-US", {
         maximumFractionDigits: 2,
         minimumFractionDigits: 2,
       });
     },
-    async obterDadosEmpresasSelecionadas() {
-      let google = await this.obterInformacoesEmpresa("GOOG");
-      google.name = "Google";
-      let ibm = await this.obterInformacoesEmpresa("IBM");
-      ibm.name = "IBM";
-      let microsoft = await this.obterInformacoesEmpresa("MSFT");
-      microsoft.name = "Microsoft";
-      let amazon = await this.obterInformacoesEmpresa("AMZN");
-      amazon.name = "Amazon.com Inc.";
-      this.empresasSelecionadas = [google, ibm, microsoft, amazon];
-    },
   },
-  beforeMount: async function () {
-      this.obterDadosEmpresasSelecionadas();
+  created: async function () {
+    this.obterDadosEmpresasSelecionadas();
   },
 };
 </script>
