@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        bovespa: null
+        bovespa: null,
     },
     getters: {
         bovespa: state => state.bovespa,
@@ -16,6 +16,15 @@ const store = new Vuex.Store({
         async obterDadosBovespa({ commit }) {
             let bovespa = await services.obterDadosBovespa();
             commit("setBovespa", bovespa.data, { root: true })
+        },
+        async obterInformacoesEmpresa(store, symbol) {
+            try {
+                console.log(symbol);
+                let response = await services.obterInformacoesEmpresa(symbol);
+                return response.data;
+            } catch {
+                alert("Erro ao obter informações da empresa " + symbol)
+            }
         }
     },
     mutations: {

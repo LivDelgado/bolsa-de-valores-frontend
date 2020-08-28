@@ -15,23 +15,25 @@
                 <v-layout row wrap justify-space-around align-center class="d-flex">
                   <v-flex xs2 class="text-center">
                     <p>Pontos</p>
-                    <h3>{{ this.bovespa ? parseFloat(this.bovespa.info.price_value).toFixed(2) : "" }}</h3>
+                    <h3>{{ this.bovespa ? this.formatValue(this.bovespa.info.price_value) : "" }}</h3>
                   </v-flex>
                   <v-flex xs2 class="text-center">
                     <p>Volume</p>
-                    <h3>{{ this.bovespa ? parseFloat(this.bovespa.info.volume_value).toFixed(2) : ""}}</h3>
+                    <h3>{{ this.bovespa ? this.bovespa.info.volume_value : ""}}</h3>
                   </v-flex>
                   <v-flex xs2 class="text-center">
                     <p>Máximo (Dia)</p>
-                    <h3>{{ this.bovespa ? parseFloat(this.bovespa.info.high_value).toFixed(2) : ""}}</h3>
+                    <h3>{{ this.bovespa ? this.formatValue(this.bovespa.info.high_value) : ""}}</h3>
                   </v-flex>
                   <v-flex xs2 class="text-center">
                     <p>Mínimo (Dia)</p>
-                    <h3>{{ this.bovespa ? parseFloat(this.bovespa.info.low_value).toFixed(2) : "" }}</h3>
+                    <h3>{{ this.bovespa ? this.formatValue(this.bovespa.info.low_value) : "" }}</h3>
                   </v-flex>
                   <v-flex xs2 class="text-center">
                     <p>Variação</p>
-                    <h3 :class="[ this.variacaoPositiva ? 'positiva' : 'negativa']">{{ this.bovespa ? this.bovespa.info.change_percentage : ""}}</h3>
+                    <h3
+                      :class="[ this.variacaoPositiva ? 'positiva' : 'negativa']"
+                    >{{ this.bovespa ? this.bovespa.info.change_percentage : ""}}</h3>
                   </v-flex>
                 </v-layout>
               </v-card-text>
@@ -81,7 +83,7 @@ export default {
     valoresGraficoBovespa() {
       if (this.bovespa) {
         return this.bovespa.updates
-          .map((atualizacao) => parseInt(atualizacao.value))
+          .map(atualizacao => atualizacao.value)
           .reverse();
       } else {
         return null;
@@ -89,25 +91,26 @@ export default {
     },
     labelsGraficoBovespa() {
       if (this.bovespa) {
-        return this.bovespa.updates.map((atualizacao) => {
-          atualizacao.date = this.formatarDataDiaMes(atualizacao.date);
-        }).reverse();
+        return this.bovespa.updates
+          .map(atualizacao => this.formatarDataDiaMes(atualizacao.date))
+          .reverse();
       } else {
         return null;
       }
     },
     variacaoPositiva() {
-      return this.bovespa ? this.bovespa.info.change_percentage.charAt(0) != '-' : false;
-    }
+      return this.bovespa
+        ? this.bovespa.info.change_percentage.charAt(0) != "-"
+        : false;
+    },
   },
   methods: {
     ...mapActions(["obterDadosBovespa"]),
     formatValue(value) {
-      value = value.replace(".", "");
-      let formattedValue = `${value.slice(0, -1)}.${value.charAt(
-        value.length - 1
-      )}`;
-      return parseFloat(formattedValue).toFixed(2);
+      return value.toLocaleString("en-US", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+      });
     },
     formatarDataDiaMes(date) {
       let dataSplitted = date.split("-");
@@ -116,7 +119,7 @@ export default {
     formatarDataCompleta(date) {
       let dataSplitted = date.split("-");
       return `${dataSplitted[2]}/${dataSplitted[1]}/${dataSplitted[0]}`;
-    }
+    },
   },
   beforeMount: async function () {
     await this.obterDadosBovespa();
