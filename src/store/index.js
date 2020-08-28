@@ -36,7 +36,7 @@ const store = new Vuex.Store({
             }
             let ibm = dispatch("obterInformacoesEmpresa", "IBM");
             if (ibm) {
-                ibm.name = "ibm"
+                ibm.name = "IBM"
                 empresasSelecionadas.push(ibm);
             }
             let microsoft = dispatch("obterInformacoesEmpresa", "MSFT");
